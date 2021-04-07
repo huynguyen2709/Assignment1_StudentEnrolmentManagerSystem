@@ -1,11 +1,11 @@
 package com.company;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class StudentEnrolmentManagerImp implements StudentEnrolmentManager{
-
-
+    //sub function 1
     public Student inputStudentId(Scanner scanner, ArrayList<Student> studentArrayList){
         String input = null;
         boolean check = true;
@@ -23,6 +23,7 @@ public class StudentEnrolmentManagerImp implements StudentEnrolmentManager{
         return chosenStudent;
     }
 
+    //sub function 2
     public Course inputCourseId(Scanner scanner, ArrayList<Course> courseArrayList){
         String input = null;
         boolean check = true;
@@ -40,6 +41,7 @@ public class StudentEnrolmentManagerImp implements StudentEnrolmentManager{
         return chosenCourse;
     }
 
+    //sub function 3
     public String inputSemester(Scanner scanner){
         String input = null;
         while (true) {
@@ -47,6 +49,11 @@ public class StudentEnrolmentManagerImp implements StudentEnrolmentManager{
             input = scanner.nextLine();
             return input;
         }
+
+    }
+
+    //Check if duplicate
+    public void checkDuplicate(){
 
     }
 
@@ -60,22 +67,38 @@ public class StudentEnrolmentManagerImp implements StudentEnrolmentManager{
         for (Student student: studentArrayList){
             System.out.println(student.toString());
         }
+        boolean check = true;
 
         //Create an enrollment
         StudentEnrolment studentEnrolment = new StudentEnrolment(
-                        inputStudentId(new Scanner(System.in), studentArrayList),
-                        inputCourseId(new Scanner(System.in), courseArrayList),
-                        inputSemester(new Scanner(System.in)));
+                inputStudentId(new Scanner(System.in), studentArrayList),
+                inputCourseId(new Scanner(System.in), courseArrayList),
+                inputSemester(new Scanner(System.in)));
+
+        StudentEnrolment studentEnrolment2 = new StudentEnrolment(
+                inputStudentId(new Scanner(System.in), studentArrayList),
+                inputCourseId(new Scanner(System.in), courseArrayList),
+                inputSemester(new Scanner(System.in)));
+
 
         //Notice user what they did
-        System.out.print("Successfully enter: ");
-        System.out.println(studentEnrolment.toString());
+        System.out.print("Successfully enroll: ");
 
         //Add enrolment into the List of enrolment.
         StudentEnrolmentManager.studentEnrolmentList.add(studentEnrolment);
+        StudentEnrolmentManager.studentEnrolmentList.add(studentEnrolment2);
 
+        for (StudentEnrolment s: StudentEnrolmentManager.studentEnrolmentList) {
+            System.out.println(s.toString());
+        }
 
     }
+
+//    public Course courseBySem(){
+//        Scanner scanner = new Scanner(System.in);
+//        String input = scanner
+//    }
+
 
     @Override
     public void updateStudent() {
@@ -84,7 +107,6 @@ public class StudentEnrolmentManagerImp implements StudentEnrolmentManager{
 
     @Override
     public void deleteStudent() {
-
     }
 
     @Override
@@ -94,11 +116,14 @@ public class StudentEnrolmentManagerImp implements StudentEnrolmentManager{
 
     @Override
     public void getAll() {
-
+        System.out.println("----------------All Enrolment----------------");
+        Iterator<StudentEnrolment> iterator = StudentEnrolmentManager.studentEnrolmentList.iterator();
+        while (iterator.hasNext()){
+            System.out.println(iterator.next().toString());
+        }
     }
 
     @Override
     public void enrollStudent() {
-
     }
 }

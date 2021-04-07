@@ -27,6 +27,7 @@ public class main {
 
         StudentEnrolmentManagerImp imp = new StudentEnrolmentManagerImp();
         imp.addStudent(studentArrayList, coursesArrayList);
+        imp.getAll();
     }
 }
 
