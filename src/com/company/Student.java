@@ -34,4 +34,13 @@ public class Student{
     public void setDob(String dob) {
         this.dob = dob;
     }
+
+    @Override
+    public String toString() {
+        return "Student {" +
+                "ID = '" + id + '\'' +
+                ", name = '" + name + '\'' +
+                ", date of birth = '" + dob + '\'' +
+                '}';
+    }
 }

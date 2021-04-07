@@ -22,4 +22,13 @@ public class StudentEnrolment {
     public String getSemester() {
         return semester;
     }
+
+    @Override
+    public String toString() {
+        return "StudentEnrolment{" +
+                "student=" + student.getName() +
+                ", course=" + course.getName() +
+                ", semester='" + semester + '\'' +
+                '}';
+    }
 }

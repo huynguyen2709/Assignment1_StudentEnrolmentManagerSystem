@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 interface StudentEnrolmentManager {
     ArrayList<StudentEnrolment> studentEnrolmentList = new ArrayList<>();
-    void addStudent();
+
+    void addStudent(ArrayList<Student> studentArrayList, ArrayList<Course> courseArrayList);
 
     void updateStudent();
 
