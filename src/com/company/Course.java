@@ -35,9 +35,8 @@ public class Course {
         this.numberOfCredits = numberOfCredits;
     }
 
-    @Override
-    public String toString() {
-        return "Course " + "{" +
+    public String toString(int count) {
+        return "Course " + count + " {" +
                 "ID = '" + id + '\'' +
                 ", name = '" + name + '\'' +
                 ", numberOfCredits = " + numberOfCredits +

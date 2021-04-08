@@ -35,9 +35,9 @@ public class Student{
         this.dob = dob;
     }
 
-    @Override
-    public String toString() {
-        return "Student {" +
+
+    public String toString(int count) {
+        return "Student " + count + " {" +
                 "ID = '" + id + '\'' +
                 ", name = '" + name + '\'' +
                 ", date of birth = '" + dob + '\'' +
