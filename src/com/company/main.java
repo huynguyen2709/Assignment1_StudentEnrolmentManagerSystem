@@ -6,12 +6,19 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class main {
+    private static StudentEnrolmentManagerImp imp = new StudentEnrolmentManagerImp();
     public static void main(String[] args) throws IOException {
+        //always read file first
+        MainMenu.impReaFile();
+        MainMenu.mainMenu();
 
-        StudentEnrolmentManagerImp imp = new StudentEnrolmentManagerImp();
-        imp.readFileCsv();
-        imp.addEnrolment(StudentEnrolmentManager.studentArrayList, StudentEnrolmentManager.coursesArrayList);
+        //for testing
+//        StudentEnrolmentManagerImp imp = new StudentEnrolmentManagerImp();
+//        imp.readFileCsv();
+//        imp.deleteEnrolment();
     }
+
+
 }
 
 

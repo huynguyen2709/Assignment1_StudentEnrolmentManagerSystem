@@ -23,9 +23,9 @@ public class StudentEnrolment {
         return semester;
     }
 
-    @Override
-    public String toString() {
-        return "StudentEnrolment{" +
+
+    public String toString(int count) {
+        return "StudentEnrolment " + count + " {" +
                 "student=" + student.getName() +
                 ", course=" + course.getName() +
                 ", semester='" + semester + '\'' +

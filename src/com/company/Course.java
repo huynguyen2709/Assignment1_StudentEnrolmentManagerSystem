@@ -35,6 +35,15 @@ public class Course {
         this.numberOfCredits = numberOfCredits;
     }
 
+    @Override
+    public String toString() {
+        return "Course{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", numberOfCredits=" + numberOfCredits +
+                '}';
+    }
+
     public String toString(int count) {
         return "Course " + count + " {" +
                 "ID = '" + id + '\'' +

@@ -2,11 +2,13 @@ package com.company;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
 
 public class StudentEnrolmentManagerImp implements StudentEnrolmentManager{
+
 
     //sub function 1
     public Student inputStudentId(Scanner scanner, ArrayList<Student> studentArrayList){
@@ -105,6 +107,19 @@ public class StudentEnrolmentManagerImp implements StudentEnrolmentManager{
         return true;
     }
 
+    private boolean checkDuplicateForEnrolment(StudentEnrolment inputStudentEnrolment){
+        if (StudentEnrolmentManager.studentEnrolmentList != null) {
+            for (StudentEnrolment studentEnrolment: StudentEnrolmentManager.studentEnrolmentList) {
+                if (studentEnrolment.getStudent().getId().equals(inputStudentEnrolment.getStudent().getId())
+                && studentEnrolment.getCourse().getId().equals(inputStudentEnrolment.getCourse().getId())
+                && studentEnrolment.getSemester().equals(inputStudentEnrolment.getSemester())){
+                    return false;
+                }
+            }
+        }
+        return true;
+    };
+
     private void displayAvailableCouAndStu(ArrayList<Student> studentArrayList, ArrayList<Course> courseArrayList) {
         System.out.println("Available Course: ");
         int countCourse = 1;
@@ -120,21 +135,8 @@ public class StudentEnrolmentManagerImp implements StudentEnrolmentManager{
         }
     }
 
-    private boolean checkDuplicateForEnrolment(StudentEnrolment inputStudentEnrolment){
-        if (StudentEnrolmentManager.studentEnrolmentList != null) {
-            for (StudentEnrolment studentEnrolment: StudentEnrolmentManager.studentEnrolmentList) {
-                if (studentEnrolment.getStudent().getId().equals(inputStudentEnrolment.getStudent().getId())
-                && studentEnrolment.getCourse().getId().equals(inputStudentEnrolment.getCourse().getId())
-                && studentEnrolment.getSemester().equals(inputStudentEnrolment.getSemester())){
-                    return false;
-                }
-            }
-        }
-        return true;
-    };
-
     @Override
-    public void addEnrolment(ArrayList<Student> studentArrayList, ArrayList<Course> courseArrayList) throws FileNotFoundException {
+    public void addEnrolment(ArrayList<Student> studentArrayList, ArrayList<Course> courseArrayList) {
         displayAvailableCouAndStu(studentArrayList, courseArrayList);
 
         //Create an enrollment
@@ -152,30 +154,179 @@ public class StudentEnrolmentManagerImp implements StudentEnrolmentManager{
         }
     }
 
+    public void miniAddInUpdate(String id){
+        Scanner scanner = new Scanner(System.in);
+        //Create an student
+        Student chosenStudentUpdate = null;
+        for (Student student: StudentEnrolmentManager.studentArrayList) {
+           if (student.getId().equals(id)) {
+                chosenStudentUpdate = student;
+            }
+        }
+
+
+        System.out.println("************List of course************");
+        for (Course course: StudentEnrolmentManager.coursesArrayList){
+            System.out.println(course.toString());
+        }
+
+        //Create an course
+        String input = null;
+        Course chosenCourse = null;
+        boolean check = true;
+        while (check == true){
+            System.out.print("Enter Course ID: ");
+            input = scanner.nextLine();
+            for (Course course: StudentEnrolmentManager.coursesArrayList) {
+                if (course.getId().equals(input)) {
+                    chosenCourse = course;
+                    check = false;
+                }
+            }
+        }
+
+        //Create an course
+        String inputSemester = null;
+        System.out.print("Enter Semester: ");
+        inputSemester = scanner.nextLine();
+
+
+        //check duplicate for enrolment
+        StudentEnrolment enrolmentForSpecificStudent = new StudentEnrolment(
+                chosenStudentUpdate,
+                chosenCourse,
+                inputSemester);
+        boolean display = true;
+        if (checkDuplicateForEnrolment(enrolmentForSpecificStudent) == true){
+            StudentEnrolmentManager.studentEnrolmentList.add(enrolmentForSpecificStudent);
+            System.out.println("Successfully Add enrolment for student " + id);
+        }else {
+            System.out.println(id + " already enroll this course");
+        }
+    }
+
     @Override
     public void updateEnrolment() {
         //list all
         for (StudentEnrolment studentEnrolment: StudentEnrolmentManager.studentEnrolmentList){
-            System.out.println(studentEnrolment.toString());
+            System.out.println(studentEnrolment.getStudent().getId() + "\t||\t" +
+                    studentEnrolment.getStudent().getName() + "\t||\t" +
+                    studentEnrolment.getStudent().getDob());
         }
         // choose to modify
+        ArrayList<StudentEnrolment> newStudentEnrolmentArrayList = new ArrayList<>();
+        String name = "";
         boolean check = true;
         while (check){
+            System.out.println("****************************************");
+            System.out.print("Enter ID of student you want to update: ");
             Scanner scanner = new Scanner(System.in);
-            String name = scanner.nextLine();
+            name = scanner.nextLine();
+            boolean miniCheck = true;
+            int count = 1;
             for (StudentEnrolment studentEnrolment: StudentEnrolmentManager.studentEnrolmentList){
-                if (!studentEnrolment.getStudent().getName().equals(name)) {
-                    System.out.println("This student dont have any enrolments.");
+                if (!studentEnrolment.getStudent().getId().equals(name)) {
+                    miniCheck = false;
                 }else {
-                    System.out.println("This are " + studentEnrolment.getStudent().getName().equals(name) + "'s enrolments: ");
+                    System.out.println("This is " + studentEnrolment.getStudent().getName() + "'s enrolments number " + count + " " + ": ");
+                    System.out.println(studentEnrolment.getCourse().toString(count));
+                    newStudentEnrolmentArrayList.add(studentEnrolment);
+                    count++;
                     check = false;
+                    miniCheck = true;
                 }
+            }
+
+            if (miniCheck == false){
+                System.out.println("This student dont have any enrolments");
+            }
+        }
+
+        boolean check2 = true;
+        boolean runNext = true;
+        while (check2 == true) {
+            System.out.print("Do you want to add or delete(add/delete): ");
+            Scanner scanner = new Scanner(System.in);
+            String option = scanner.nextLine();
+            if (option.equals("add")) {
+                miniAddInUpdate(name);
+                check2 = false;
+                runNext = false;
+            }else if (option.equals("delete")){
+                //to print all course of that student
+                int count = 1;
+                System.out.println("************All course of " + name +"************");
+                for (StudentEnrolment studentEnrolment: newStudentEnrolmentArrayList) {
+                    System.out.println(count +". " + studentEnrolment.toString());
+                    count++;
+                }
+                check2 = false;
+            }
+        }
+        while (runNext == true){
+            System.out.println("Choose number of enrolment you want to delete: ");
+            Scanner scanner = new Scanner(System.in);
+            int inputNum = scanner.nextInt();
+            if (0 < inputNum && inputNum <= newStudentEnrolmentArrayList.size()) {
+                StudentEnrolmentManager.studentEnrolmentList.remove(newStudentEnrolmentArrayList.get(inputNum - 1));
+
+                getAll();
+                break;
             }
         }
     }
 
     @Override
     public void deleteEnrolment() {
+        //list all enrolments for Users to observe
+        for (StudentEnrolment studentEnrolment: StudentEnrolmentManager.studentEnrolmentList){
+            System.out.println(studentEnrolment.getStudent().getId() + "\t||\t" +
+                    studentEnrolment.getStudent().getName() + "\t||\t" +
+                    studentEnrolment.getStudent().getDob());
+        }
+        // choose to modify
+        ArrayList<StudentEnrolment> newStudentEnrolmentArrayList = new ArrayList<>();
+        String name = "";
+        boolean check = true;
+        while (check){
+            System.out.println("****************************************");
+            System.out.print("Enter ID of student you want to delete: ");
+            Scanner scanner = new Scanner(System.in);
+            name = scanner.nextLine();
+            boolean miniCheck = true;
+            for (StudentEnrolment studentEnrolment: StudentEnrolmentManager.studentEnrolmentList){
+                if (!studentEnrolment.getStudent().getId().equals(name)) {
+                    miniCheck = false;
+                }else {
+                    newStudentEnrolmentArrayList.add(studentEnrolment);
+                    check = false;
+                    miniCheck = true;
+                }
+            }
+
+            if (miniCheck == false){
+                System.out.println("This student dont have any enrolments");
+            }
+        }
+        int count = 1;
+        System.out.println("************All course of " + name +"************");
+        for (StudentEnrolment studentEnrolment: newStudentEnrolmentArrayList) {
+            System.out.println(count +". " + studentEnrolment.getCourse().toString(count));
+            count++;
+        }
+
+        boolean runNext = true;
+        while (runNext == true){
+            System.out.println("Choose number of enrolment you want to delete: ");
+            Scanner scanner = new Scanner(System.in);
+            int inputNum = scanner.nextInt();
+            if (0 < inputNum && inputNum <= newStudentEnrolmentArrayList.size()) {
+                StudentEnrolmentManager.studentEnrolmentList.remove(newStudentEnrolmentArrayList.get(inputNum - 1));
+                getAll();
+                break;
+            }
+        }
+
     }
 
     @Override
@@ -187,12 +338,11 @@ public class StudentEnrolmentManagerImp implements StudentEnrolmentManager{
     public void getAll() {
         System.out.println("----------------All Enrolment----------------");
         Iterator<StudentEnrolment> iterator = StudentEnrolmentManager.studentEnrolmentList.iterator();
+        int count = 1;
         while (iterator.hasNext()){
-            System.out.println(iterator.next().toString());
+            System.out.println(iterator.next().toString(count));
+            count++;
         }
     }
 
-    @Override
-    public void enrollStudent() {
-    }
 }

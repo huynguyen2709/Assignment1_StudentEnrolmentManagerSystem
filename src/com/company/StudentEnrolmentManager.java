@@ -19,5 +19,4 @@ interface StudentEnrolmentManager {
 
     void getAll();
 
-    void enrollStudent();
 }
