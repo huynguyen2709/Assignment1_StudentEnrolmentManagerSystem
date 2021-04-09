@@ -3,7 +3,6 @@ package com.company;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Scanner;
 
@@ -106,8 +105,7 @@ public class StudentEnrolmentManagerImp implements StudentEnrolmentManager{
         return true;
     }
 
-    @Override
-    public void addEnrolment(ArrayList<Student> studentArrayList, ArrayList<Course> courseArrayList) throws FileNotFoundException {
+    private void displayAvailableCouAndStu(ArrayList<Student> studentArrayList, ArrayList<Course> courseArrayList) {
         System.out.println("Available Course: ");
         int countCourse = 1;
         for (Course course: courseArrayList) {
@@ -120,7 +118,24 @@ public class StudentEnrolmentManagerImp implements StudentEnrolmentManager{
             System.out.println(student.toString(countStudent));
             countStudent++;
         }
-        boolean check = true;
+    }
+
+    private boolean checkDuplicateForEnrolment(StudentEnrolment inputStudentEnrolment){
+        if (StudentEnrolmentManager.studentEnrolmentList != null) {
+            for (StudentEnrolment studentEnrolment: StudentEnrolmentManager.studentEnrolmentList) {
+                if (studentEnrolment.getStudent().getId().equals(inputStudentEnrolment.getStudent().getId())
+                && studentEnrolment.getCourse().getId().equals(inputStudentEnrolment.getCourse().getId())
+                && studentEnrolment.getSemester().equals(inputStudentEnrolment.getSemester())){
+                    return false;
+                }
+            }
+        }
+        return true;
+    };
+
+    @Override
+    public void addEnrolment(ArrayList<Student> studentArrayList, ArrayList<Course> courseArrayList) throws FileNotFoundException {
+        displayAvailableCouAndStu(studentArrayList, courseArrayList);
 
         //Create an enrollment
         StudentEnrolment studentEnrolment = new StudentEnrolment(
@@ -128,19 +143,14 @@ public class StudentEnrolmentManagerImp implements StudentEnrolmentManager{
                 inputCourseId(new Scanner(System.in), courseArrayList),
                 inputSemester(new Scanner(System.in)));
 
-
-        //Notice user what they did
-        System.out.println("Successfully enroll: ");
-
         //Add enrolment into the List of enrolment.
-        StudentEnrolmentManager.studentEnrolmentList.add(studentEnrolment);
-        System.out.println("Total enrolment:");
-        for (StudentEnrolment s: StudentEnrolmentManager.studentEnrolmentList) {
-            System.out.println(s.toString());
+        if (checkDuplicateForEnrolment(studentEnrolment) == true) {
+            StudentEnrolmentManager.studentEnrolmentList.add(studentEnrolment);
+            System.out.println("----------------Successfully add new enrolment----------------");
+        }else {
+            System.out.println("This enrolment already existed");
         }
-
     }
-
 
     @Override
     public void updateEnrolment() {
