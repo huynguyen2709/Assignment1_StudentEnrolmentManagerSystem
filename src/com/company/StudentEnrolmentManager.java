@@ -8,6 +8,7 @@ interface StudentEnrolmentManager {
     ArrayList<StudentEnrolment> studentEnrolmentList = new ArrayList<>();
     ArrayList<Student> studentArrayList = new ArrayList<>();
     ArrayList<Course> coursesArrayList = new ArrayList<>();
+    ArrayList<String> semArrayList = new ArrayList<>();
 
     void addEnrolment(ArrayList<Student> studentArrayList, ArrayList<Course> courseArrayList) throws FileNotFoundException;
 

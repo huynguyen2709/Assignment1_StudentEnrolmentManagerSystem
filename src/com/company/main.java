@@ -12,13 +12,7 @@ public class main {
         MainMenu.impReaFile();
         MainMenu.mainMenu();
 
-        //for testing
-//        StudentEnrolmentManagerImp imp = new StudentEnrolmentManagerImp();
-//        imp.readFileCsv();
-//        imp.deleteEnrolment();
     }
-
-
 }
 
 

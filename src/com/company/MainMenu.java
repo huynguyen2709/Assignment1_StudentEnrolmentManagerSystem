@@ -22,6 +22,7 @@ public class MainMenu {
                 subMenu.subMenu();
                 break;
             }else if (menuChoice.equals("2")){
+                subMenu.menuPrint();
                 break;
             }else if (menuChoice.equals("3")){
                 break;
@@ -76,6 +77,34 @@ public class MainMenu {
             }
         }
 
+        public static void menuPrint() throws FileNotFoundException {
+            while (true) {
+                System.out.println("************************Menu Print************************");
+                System.out.println("1. Print All courses offered in Semester");
+                //printAllCoursesFor1StudentFor1Sem
+                System.out.println("2. Print All courses for 1 Student for 1 Semester");
+                //printAllStudentsFor1CourseFor1Sem
+                System.out.println("3. Print all Students for 1 Course for 1 Semester");
+                System.out.println("4. Exit Menu Print");
+                Scanner scanner = new Scanner(System.in);
+                String userOption = scanner.nextLine();
+                if (userOption.equals("1")) {
+                    imp.printAllCourseOfferedInSemester();
+                    break;
+                } else if (userOption.equals("2")){
+                    imp.printAllCoursesFor1StudentFor1Sem();
+                    break;
+                } else if (userOption.equals("3")){
+                    imp.printAllStudentsFor1CourseFor1Sem();
+                    break;
+                } else if (userOption.equals("4")){
+                    MainMenu.mainMenu();
+                    break;
+                }
+            }
+        }
 
     }
+
+
 }
