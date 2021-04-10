@@ -5,11 +5,7 @@ import java.util.Scanner;
 
 public class MainMenu {
     private static StudentEnrolmentManagerImp imp = new StudentEnrolmentManagerImp();
-    public static void impReaFile() throws FileNotFoundException {
-        imp.readFileCsv();
-    }
     public static void mainMenu() throws FileNotFoundException {
-//        imp.readFileCsv();
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.println("************************Student Enrolment Manager System************************");
@@ -19,19 +15,19 @@ public class MainMenu {
             System.out.print("Your command: ");
             String menuChoice = scanner.nextLine();
             if (menuChoice.equals("1")) {
-                subMenu.subMenu();
+                subMenu.crudMenu();
                 break;
             }else if (menuChoice.equals("2")){
                 subMenu.menuPrint();
                 break;
             }else if (menuChoice.equals("3")){
-                break;
+                return;
             }
         }
     }
 
     public static class subMenu {
-        public static void subMenu() throws FileNotFoundException {
+        public static void crudMenu() throws FileNotFoundException {
             Scanner scanner = new Scanner(System.in);
             while (true) {
                 System.out.println("************************CRUD Enrolment************************");
@@ -53,7 +49,7 @@ public class MainMenu {
                     imp.deleteEnrolment();
                     break;
                 }else if (menuChoice.equals("4")){
-                    System.out.println("SO 4 NE");
+                    getOneMenu.getOneMenu();
                     break;
                 }else if (menuChoice.equals("5")){
                     imp.getAll();
@@ -66,13 +62,14 @@ public class MainMenu {
 
             while (true) {
                 Scanner scanner1 = new Scanner(System.in);
-                System.out.print("Do you want to continue(yes/no): ");
+                System.out.print("Do you want to continue managing CRUD Enrolment(yes/no): ");
                 String yesOrNo = scanner1.nextLine();
                 if (yesOrNo.equals("yes")) {
-                    subMenu();
+                    crudMenu();
+                    break;
                 }else if (yesOrNo.equals("no")) {
                     MainMenu.mainMenu();
-                    break;
+                    return;
                 }
             }
         }
@@ -99,12 +96,48 @@ public class MainMenu {
                     break;
                 } else if (userOption.equals("4")){
                     MainMenu.mainMenu();
-                    break;
+                    return;
                 }
             }
+
+            //ask if want to go back menuPrint
+            while (true) {
+                Scanner scanner1 = new Scanner(System.in);
+                System.out.print("Do you want to continue(yes/no) OK: ");
+                String yesOrNo = scanner1.nextLine();
+                if (yesOrNo.equals("yes")) {
+                    menuPrint();
+                    break;
+                }else if (yesOrNo.equals("no")) {
+                    MainMenu.mainMenu();
+                    return;
+                }
+            }
+
+
         }
 
     }
 
+    public static class getOneMenu {
+        public static void getOneMenu() throws FileNotFoundException {
+            while (true) {
+                Scanner scanner = new Scanner(System.in);
+                System.out.println("************************Get One Enrolment************************");
+                System.out.print("Please enter Student ID you want to get: ");
+                String sid = scanner.nextLine();
+                System.out.print("Please enter Course ID you want to get: ");
+                String cid = scanner.nextLine();
+                System.out.print("Please enter enrolled Semester: ");
+                String semester = scanner.nextLine();
+                imp.getOne(sid, cid, semester);
+                System.out.print("Do you want to continue get one enrolment(yes/no): ");
+                String usersOption = scanner.nextLine();
+                if (usersOption.equals("no")){
+                    return;
+                }
+            }
+        }
+    }
 
 }

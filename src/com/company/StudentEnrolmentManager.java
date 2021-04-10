@@ -12,12 +12,12 @@ interface StudentEnrolmentManager {
 
     void addEnrolment(ArrayList<Student> studentArrayList, ArrayList<Course> courseArrayList) throws FileNotFoundException;
 
-    void updateEnrolment();
+    void updateEnrolment() throws FileNotFoundException;
 
-    void deleteEnrolment();
+    void deleteEnrolment() throws FileNotFoundException;
 
-    void getOne();
+    void getOne(String sid, String cid, String semester) throws FileNotFoundException;
 
-    void getAll();
+    void getAll() throws FileNotFoundException;
 
 }

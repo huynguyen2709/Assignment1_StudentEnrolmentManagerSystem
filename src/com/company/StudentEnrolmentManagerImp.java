@@ -143,7 +143,11 @@ public class StudentEnrolmentManagerImp implements StudentEnrolmentManager{
     }
 
     @Override
-    public void addEnrolment(ArrayList<Student> studentArrayList, ArrayList<Course> courseArrayList) {
+    public void addEnrolment(ArrayList<Student> studentArrayList, ArrayList<Course> courseArrayList) throws FileNotFoundException {
+        //check if enrolment is null
+        if (StudentEnrolmentManager.studentEnrolmentList.isEmpty()){
+            readFileCsv();
+        }
         displayAvailableCouAndStu(studentArrayList, courseArrayList);
 
         //Create an enrollment
@@ -213,7 +217,12 @@ public class StudentEnrolmentManagerImp implements StudentEnrolmentManager{
     }
 
     @Override
-    public void updateEnrolment() {
+    public void updateEnrolment() throws FileNotFoundException {
+        //check if the enrolment is null
+        if (StudentEnrolmentManager.studentEnrolmentList.isEmpty()){
+            readFileCsv();
+        }
+
         //list all
         for (StudentEnrolment studentEnrolment: StudentEnrolmentManager.studentEnrolmentList){
             System.out.println(studentEnrolment.getStudent().getId() + "\t||\t" +
@@ -290,7 +299,11 @@ public class StudentEnrolmentManagerImp implements StudentEnrolmentManager{
     }
 
     @Override
-    public void deleteEnrolment() {
+    public void deleteEnrolment() throws FileNotFoundException {
+        //check if enrolment is null
+        if (StudentEnrolmentManager.studentEnrolmentList.isEmpty()){
+            readFileCsv();
+        }
         //list all enrolments for Users to observe
         for (StudentEnrolment studentEnrolment: StudentEnrolmentManager.studentEnrolmentList){
             System.out.println(studentEnrolment.getStudent().getId() + "\t||\t" +
@@ -349,14 +362,38 @@ public class StudentEnrolmentManagerImp implements StudentEnrolmentManager{
     }
 
     @Override
-    public void getOne() {
-
+    public void getOne(String sid, String cid, String semester) throws FileNotFoundException {
+        //checking if enrolment existed
+        int countEnrol = 1;
+        if (StudentEnrolmentManager.studentEnrolmentList.isEmpty()) {
+            readFileCsv();
+        }
+        boolean print = true;
+        for (StudentEnrolment studentEnrolment: StudentEnrolmentManager.studentEnrolmentList) {
+            if (studentEnrolment.getStudent().getId().equals(sid)
+                    && studentEnrolment.getCourse().getId().equals(cid)
+                    && studentEnrolment.getSemester().equals(semester)) {
+                System.out.println(studentEnrolment.toString(countEnrol));
+                countEnrol++;
+                print = true;
+                break;
+            }else {
+                print = false;
+            }
+        }
+        if (print == false) {
+            System.out.println("Cannot show since the enrolment does not exist");
+        }
     }
 
-
-
     @Override
-    public void getAll() {
+    public void getAll() throws FileNotFoundException {
+
+        //check if enrolment is null
+        if (StudentEnrolmentManager.studentEnrolmentList.isEmpty()){
+            readFileCsv();
+        }
+
         System.out.println("----------------All Enrolment----------------");
         Iterator<StudentEnrolment> iterator = StudentEnrolmentManager.studentEnrolmentList.iterator();
         int count = 1;
@@ -366,7 +403,7 @@ public class StudentEnrolmentManagerImp implements StudentEnrolmentManager{
         }
     }
 
-    //code qh gui
+    //Print and save to csv function
     private static void writeToFile(String fileName, String line, boolean append) {
         PrintWriter output = null;
         try {
@@ -381,7 +418,6 @@ public class StudentEnrolmentManagerImp implements StudentEnrolmentManager{
                 output.close();
         }
     }
-
 
     private void askSaveReport(String fileName, String record){
         System.out.print("Do you want to save the report into CSV file (Y/N) ");
@@ -399,8 +435,11 @@ public class StudentEnrolmentManagerImp implements StudentEnrolmentManager{
         }
     }
 
-
     public void printAllCoursesFor1StudentFor1Sem() throws FileNotFoundException {
+        //check if enrolment is null
+        if (StudentEnrolmentManager.studentEnrolmentList.isEmpty()){
+            readFileCsv();
+        }
         String record="";
         for (String sem : readFileTakeSemList()){
             record+= "========"+sem+"==========\n";
@@ -425,7 +464,12 @@ public class StudentEnrolmentManagerImp implements StudentEnrolmentManager{
         askSaveReport("Report1.csv",record);
 
     }
+
     public void printAllStudentsFor1CourseFor1Sem() throws FileNotFoundException {
+        //check if enrolment is null
+        if (StudentEnrolmentManager.studentEnrolmentList.isEmpty()){
+            readFileCsv();
+        }
         String record ="";
         for (String sem : readFileTakeSemList()){
             record+="========"+sem+"==========\n";
@@ -452,6 +496,11 @@ public class StudentEnrolmentManagerImp implements StudentEnrolmentManager{
     }
 
     public void printAllCourseOfferedInSemester() throws FileNotFoundException {
+        //check if enrolment is null
+        if (StudentEnrolmentManager.studentEnrolmentList.isEmpty()){
+            readFileCsv();
+        }
+
         String record="";
         for(String sem: readFileTakeSemList()){
             record+="========"+sem+"==========\n";

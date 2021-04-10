@@ -23,12 +23,13 @@ public class StudentEnrolment {
         return semester;
     }
 
-
     public String toString(int count) {
-        return "StudentEnrolment " + count + " {" +
-                "student=" + student.getName() +
-                ", course=" + course.getName() +
-                ", semester='" + semester + '\'' +
-                '}';
+        return "Student Enrolment " + count + " {" +
+                "\n\tStudent ID = " + student.getId() +
+                "\n\tStudent Name= " + student.getName() +
+                "\n\tCourse ID=" + course.getId() +
+                "\n\tCourse Name=" + course.getName() +
+                "\n\tSemester Enrol='" + semester + '\'' +
+                "\n}";
     }
 }
