@@ -52,7 +52,7 @@ public class StudentEnrolmentManagerImp implements StudentEnrolmentManager{
 
     //Read file data from CSV file and create Enrolments
     public void readFileCsv() throws FileNotFoundException {
-        String filename = "default.csv";
+        String filename = main.fileName;
         //read file
         File file = new File(filename);
         Scanner inputStream = new Scanner(file);
@@ -462,7 +462,6 @@ public class StudentEnrolmentManagerImp implements StudentEnrolmentManager{
         }
         System.out.println(record);
         askSaveReport("Report1.csv",record);
-
     }
 
     public void printAllStudentsFor1CourseFor1Sem() throws FileNotFoundException {
@@ -519,6 +518,4 @@ public class StudentEnrolmentManagerImp implements StudentEnrolmentManager{
         System.out.println(record);
         askSaveReport("Report3.csv",record);
     }
-
-
 }
