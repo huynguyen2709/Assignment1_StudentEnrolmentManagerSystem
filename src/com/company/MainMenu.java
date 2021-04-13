@@ -40,7 +40,7 @@ public class MainMenu {
                 System.out.print("Enter your choice: ");
                 String menuChoice = scanner.nextLine();
                 if (menuChoice.equals("1")) {
-                    imp.addEnrolment(StudentEnrolmentManager.studentArrayList, StudentEnrolmentManager.coursesArrayList);
+                    imp.addEnrolment();
                     break;
                 }else if (menuChoice.equals("2")){
                     imp.updateEnrolment();
@@ -103,7 +103,7 @@ public class MainMenu {
             //ask if want to go back menuPrint
             while (true) {
                 Scanner scanner1 = new Scanner(System.in);
-                System.out.print("Do you want to continue(yes/no) OK: ");
+                System.out.print("Do you want to continue menuPrint(yes/no): ");
                 String yesOrNo = scanner1.nextLine();
                 if (yesOrNo.equals("yes")) {
                     menuPrint();
@@ -114,9 +114,7 @@ public class MainMenu {
                 }
             }
 
-
         }
-
     }
 
     public static class getOneMenu {

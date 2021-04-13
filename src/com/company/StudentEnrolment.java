@@ -11,6 +11,21 @@ public class StudentEnrolment {
         this.semester = semester;
     }
 
+    public StudentEnrolment() {
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
+    }
+
+    public void setSemester(String semester) {
+        this.semester = semester;
+    }
+
     public Student getStudent() {
         return student;
     }
@@ -32,4 +47,6 @@ public class StudentEnrolment {
                 "\n\tSemester Enrol='" + semester + '\'' +
                 "\n}";
     }
+
+
 }

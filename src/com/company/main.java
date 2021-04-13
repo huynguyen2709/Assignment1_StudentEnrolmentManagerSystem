@@ -18,8 +18,6 @@ public class main {
         }else {
             MainMenu.mainMenu();
         }
-
-
     }
 }
 
