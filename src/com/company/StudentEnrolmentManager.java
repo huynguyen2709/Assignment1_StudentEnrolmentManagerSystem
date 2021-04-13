@@ -1,10 +1,8 @@
 package com.company;
 
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 
 interface StudentEnrolmentManager {
-
 
     void addEnrolment() throws FileNotFoundException;
 
